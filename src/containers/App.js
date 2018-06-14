@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import Order from './Order';
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
+import Orders from '../components/Orders/Orders';
 import './App.css';
 
 // (props, state, children)
@@ -77,39 +79,18 @@ class App extends Component {
 
   //returns ReactElement - (props, children)
   render() {
-    let images = require.context('./images');
-    let total = this.state.orders.reduce((sum, order) =>
-      sum + (+order.quantity * +order.price), 0);
-
-
-    let nadpis = null;
-    if (this.state.orders.length == 0) {
-      nadpis = <h4> Vsichko nakupi, jenata shte e dovolna </h4>;
-    }
-
-
     return (
       <div className='App'>
-        <h1> Pazar, eto spisyka ot jenata: </h1>
-        {
-          this.state.orders.map((order) => (
-            <Order
-              key={order.id}
-              photo={images(`./${order.photo}.jpg`)}
-              name={order.name}
-              info={order.info}
-              price={order.price}
-              quantity={order.quantity}
-              handleDelete={() => this.deleteOrder(order.id)}
-              handleChange={(event) => this.changeQuantity(event, order.id)} />
-          ))
-        }
+        <Header boss='myja' />
 
-        <footer>
-          {nadpis}
+        <Orders
+          orders={this.state.orders}
+          handleDelete={this.deleteOrder}
+          handleChange={this.changeQuantity}
+        />
 
-          <span>Smetkata ti e: {total}</span>
-        </footer>
+        <Footer
+          orders={this.state.orders} />
       </div>
     )
   }
