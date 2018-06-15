@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Orders from '../components/Orders/Orders';
-import './App.css';
+import classes from './App.css';
+
 
 // (props, state, children)
 class App extends Component {
@@ -79,9 +80,10 @@ class App extends Component {
 
   //returns ReactElement - (props, children)
   render() {
+    console.log(classes);
     return (
-      <div className='App'>
-        <Header boss='myja' />
+      <div className={classes.App}>
+        <Header boss={null} kolko={'5'} />
 
         <Orders
           orders={this.state.orders}
