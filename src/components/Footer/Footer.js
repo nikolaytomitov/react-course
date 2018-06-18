@@ -7,15 +7,13 @@ const footer = (props) => {
 
 
     let nadpis = null;
-    if (props.orders.length == 0) {
+    if (props.orders.length === 0) {
         nadpis = <h4> Vsichko nakupi, jenata shte e dovolna </h4>;
     }
     const smetkaClasses = [classes.smetka];
     if (total > 100) {
         smetkaClasses.push(classes.golqmaSmetka);
     }
-
-    console.log(smetkaClasses);
 
     return (
         <footer className={classes.Footer}>

@@ -38,6 +38,11 @@ class App extends Component {
     x: 0
   }
 
+  constructor(props) {
+    super(props);
+    console.log("App constructor");
+  }
+
   deleteOrder = (id) => {
     console.log("Sega kupih tui s id " + id);
     const newOrders = [...this.state.orders];
@@ -78,12 +83,17 @@ class App extends Component {
     });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    console.log('App shouldComponentUpdate')
+    return true;
+  }
+
   //returns ReactElement - (props, children)
   render() {
-    console.log(classes);
+    console.log("App render");
     return (
       <div className={classes.App}>
-        <Header boss={null} kolko={'5'} />
+        <Header boss='Jenata' kolko={5} />
 
         <Orders
           orders={this.state.orders}
@@ -95,6 +105,14 @@ class App extends Component {
           orders={this.state.orders} />
       </div>
     )
+  }
+
+  componentDidUpdate() {
+    console.log("App componentDidUpdate");
+  }
+
+  componentDidMount() {
+    console.log("App componentDidMount");
   }
 }
 

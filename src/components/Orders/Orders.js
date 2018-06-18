@@ -1,20 +1,49 @@
-import React from 'react';
+import React, { Component } from 'react';
 import Order from './Order';
 
 const images = require.context('../../images');
 
-const orders = (props) => {
-    return props.orders.map((order) => (
-        <Order
-            key={order.id}
-            photo={images(`./${order.photo}.jpg`)}
-            name={order.name}
-            info={order.info}
-            price={order.price}
-            quantity={order.quantity}
-            handleDelete={() => props.handleDelete(order.id)}
-            handleChange={(event) => props.handleChange(event, order.id)} />
-    ))
+class Orders extends Component {
+
+    constructor(props) {
+        super(props);
+        console.log('Orders Constructor');
+        this.state = {};
+    }
+
+
+    // static getDerivedStateFromProps(props, state) {
+    //     console.log('@Orders@ getDerivedStateFromProps', props, state);
+    //     return {};
+    // }
+
+    componentDidMount() {
+        console.log('@Orders@ componentDidMount');
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        console.log('@Orders@ shouldComponentUpdate')
+        return true;
+    }
+
+    render() {
+        console.log('@Orders@ render');
+        return this.props.orders.map((order) => (
+            <Order
+                key={order.id}
+                photo={images(`./${order.photo}.jpg`)}
+                name={order.name}
+                info={order.info}
+                price={order.price}
+                quantity={order.quantity}
+                handleDelete={() => this.props.handleDelete(order.id)}
+                handleChange={(event) => this.props.handleChange(event, order.id)} />
+        ))
+    }
+
+    componentDidUpdate() {
+        console.log("@Orders@ componentDidUpdate");
+    }
 }
 
-export default orders;
+export default Orders;
