@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import Order from './Order';
 
 const images = require.context('../../images');
@@ -29,15 +29,16 @@ class Orders extends Component {
     render() {
         console.log('@Orders@ render');
         return this.props.orders.map((order) => (
-            <Order
-                key={order.id}
-                photo={images(`./${order.photo}.jpg`)}
-                name={order.name}
-                info={order.info}
-                price={order.price}
-                quantity={order.quantity}
-                handleDelete={() => this.props.handleDelete(order.id)}
-                handleChange={(event) => this.props.handleChange(event, order.id)} />
+            <Fragment key={order.id}>
+                <Order
+                    // photo={images(`./${order.photo}.jpg`)}
+                    name={order.name}
+                    // info={order.info}
+                    price={order.price}
+                    quantity={order.quantity}
+                    handleDelete={() => this.props.handleDelete(order.id)}
+                    handleChange={(event) => this.props.handleChange(event, order.id)} />
+            </Fragment>
         ))
     }
 

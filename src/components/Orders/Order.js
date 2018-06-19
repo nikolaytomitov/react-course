@@ -10,12 +10,14 @@ class Order extends Component {
 
     render() {
         console.log('$Order$ Render');
+        // if (this.props.quantity == 3) {
+        //     throw new Error("ne stava!");
+        // }
         return (
             <div>
-                <img width="50px" src={this.props.photo} alt="Kartinka" />
                 <span> {this.props.name} </span>
 
-                <span> {this.props.info} </span>
+                {/* <span> {this.props.info} </span> */}
                 <span> Price : <strong> {this.props.price} </strong> </span>
                 <input type="number" value={this.props.quantity}
                     onChange={this.props.handleChange} />

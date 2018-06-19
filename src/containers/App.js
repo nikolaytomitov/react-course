@@ -3,38 +3,18 @@ import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 import Orders from '../components/Orders/Orders';
 import classes from './App.css';
+import ErrorBoundary from '../components/ErrorBoundary/ErrorBoundary';
+import wrapper from '../hoc/Wrapper2';
+import axios from 'axios';
 
+
+axios.defaults.baseURL = 'https://sudjuci.firebaseio.com/';
 
 // (props, state, children)
 class App extends Component {
 
   state = {
-    orders: [
-      {
-        id: '3w423',
-        photo: 'turshiq',
-        name: "turshiq",
-        info: "ot kiselata",
-        price: 4,
-        quantity: 2
-      },
-      {
-        id: '2342',
-        photo: 'domat',
-        name: "Domati",
-        info: "rozovi, na promociq",
-        price: 3,
-        quantity: 1
-      },
-      {
-        id: '463456',
-        photo: 'morkov',
-        name: "Morkovi",
-        info: "ot dolen but bio",
-        price: 2,
-        quantity: 20
-      }
-    ],
+    orders: [],
     x: 0
   }
 
@@ -49,8 +29,10 @@ class App extends Component {
     let index = newOrders.findIndex(order => order.id === id);
     newOrders.splice(index, 1);
 
-    this.setState({
-      orders: newOrders
+    axios.delete('/sudjuci/' + id + ".json").then(data => {
+      this.setState({
+        orders: newOrders
+      });
     });
   }
 
@@ -93,7 +75,11 @@ class App extends Component {
     console.log("App render");
     return (
       <div className={classes.App}>
-        <Header boss='Jenata' kolko={5} />
+        <ErrorBoundary >
+          <Header boss='Jenata' kolko={5}>
+            {this.props.title}
+          </Header>
+        </ErrorBoundary>
 
         <Orders
           orders={this.state.orders}
@@ -113,7 +99,17 @@ class App extends Component {
 
   componentDidMount() {
     console.log("App componentDidMount");
+    axios.get('/sudjuci.json')
+      .then((response) => {
+        let sudjuci = Object.keys(response.data).map((key) => {
+          return { id: key, ...response.data[key] };
+        })
+
+        this.setState({
+          orders: sudjuci
+        });
+      });
   }
 }
 
-export default App;
+export default wrapper(App);
