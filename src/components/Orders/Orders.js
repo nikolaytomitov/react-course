@@ -1,21 +1,43 @@
 import React, { Component, Fragment } from 'react';
 import Order from './Order';
-
-const images = require.context('../../images');
+import axios from 'axios';
 
 class Orders extends Component {
+
+    state = {
+        orders: [],
+        x: 0
+    }
 
     constructor(props) {
         super(props);
         console.log('Orders Constructor');
-        this.state = {};
     }
 
+    deleteOrder = (id) => {
+        console.log("Sega kupih tui s id " + id);
+        const newOrders = [...this.state.orders];
+        let index = newOrders.findIndex(order => order.id === id);
+        newOrders.splice(index, 1);
 
-    // static getDerivedStateFromProps(props, state) {
-    //     console.log('@Orders@ getDerivedStateFromProps', props, state);
-    //     return {};
-    // }
+        axios.delete('/sudjuci/' + id + ".json").then(data => {
+            this.setState({
+                orders: newOrders
+            });
+        });
+    }
+
+    changeQuantity = (event, id) => {
+        const newQuantity = event.target.value;
+        const newOrders = [...this.state.orders];
+        let index = newOrders.findIndex(order => order.id === id);
+        newOrders[index].quantity = newQuantity;
+
+        this.setState({
+            orders: newOrders
+        });
+    }
+
 
     componentDidMount() {
         console.log('@Orders@ componentDidMount');
@@ -28,7 +50,7 @@ class Orders extends Component {
 
     render() {
         console.log('@Orders@ render');
-        return this.props.orders.map((order) => (
+        return this.state.orders.map((order) => (
             <Fragment key={order.id}>
                 <Order
                     // photo={images(`./${order.photo}.jpg`)}
@@ -36,14 +58,32 @@ class Orders extends Component {
                     // info={order.info}
                     price={order.price}
                     quantity={order.quantity}
-                    handleDelete={() => this.props.handleDelete(order.id)}
-                    handleChange={(event) => this.props.handleChange(event, order.id)} />
+                    handleDelete={() => this.deleteOrder(order.id)}
+                    handleChange={(event) => this.changeQuantity(event, order.id)} />
             </Fragment>
         ))
     }
 
     componentDidUpdate() {
         console.log("@Orders@ componentDidUpdate");
+    }
+
+    componentDidMount() {
+        console.log("App componentDidMount");
+        axios.get('/sudjuci.json')
+            .then((response) => {
+                let sudjuci = Object.keys(response.data).map((key) => {
+                    return { id: key, ...response.data[key] };
+                })
+
+                this.setState({
+                    orders: sudjuci
+                });
+            })
+            .catch(error => {
+                console.log(error);
+                this.setState({ hasError: true })
+            });
     }
 }
 

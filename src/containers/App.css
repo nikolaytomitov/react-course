@@ -6,3 +6,26 @@
   color: black;
   font-size: 3em;
 }
+
+.App nav ul {
+  list-style: none;
+}
+
+.App nav li {
+  display: inline-block;
+  margin: 0 20px;
+}
+
+.App nav li a {
+  text-decoration: none;
+}
+
+.App nav ul li a.active {
+  color: green;
+  border: 1px solid red;
+}
+
+.App .active2 {
+  color: green;
+  border: 1px solid red;
+}

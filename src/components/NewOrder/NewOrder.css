@@ -1,0 +1,11 @@
+.NewOrder {
+    border: 1px solid black;
+    margin : 20px auto;
+    padding: 10px;
+    width: 60%;
+}
+
+.NewOrder input {
+    display: block;
+    margin: 0 auto;
+}

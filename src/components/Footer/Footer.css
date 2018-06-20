@@ -1,6 +1,7 @@
 .Footer {
-    font-size: 2em;
+    font-size: 1em;
     font-weight: bold;
+    margin-top: 2em;
 }
 
 .smetka {
@@ -14,5 +15,5 @@
 
 .golqmaSmetka {
     color: red;
-    font-size: 2em;
+    font-size: 1em;
 }
