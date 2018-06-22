@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../components/Header/Header';
-import Footer from '../components/Footer/Footer';
+// import Footer from '../components/Footer/Footer';
 import Orders from '../components/Orders/Orders';
 import NewOrder from '../components/NewOrder/NewOrder';
 import OrderDetail from '../components/OrderDetail/OrderDetail';

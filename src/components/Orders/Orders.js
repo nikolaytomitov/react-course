@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Order from './Order';
 import axios from 'axios';
@@ -39,10 +39,6 @@ class Orders extends Component {
         });
     }
 
-
-    componentDidMount() {
-        console.log('@Orders@ componentDidMount');
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
         console.log('@Orders@ shouldComponentUpdate')
