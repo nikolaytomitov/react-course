@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 
 //stateful
 class Order extends Component {
     constructor(props) {
         super(props);
         console.log('$Order$ Constructor');
+        console.log("Order props ", this.props);
     }
 
 
@@ -61,4 +63,4 @@ class Order extends Component {
 // }
 
 
-export default Order;
+export default withRouter(Order);

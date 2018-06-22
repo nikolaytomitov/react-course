@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { Link } from 'react-router-dom';
 import Order from './Order';
 import axios from 'axios';
 
@@ -50,8 +51,9 @@ class Orders extends Component {
 
     render() {
         console.log('@Orders@ render');
+        console.log("Props ", this.props);
         return this.state.orders.map((order) => (
-            <Fragment key={order.id}>
+            <Link to={'/' + order.id} key={order.id}>
                 <Order
                     // photo={images(`./${order.photo}.jpg`)}
                     name={order.name}
@@ -60,7 +62,7 @@ class Orders extends Component {
                     quantity={order.quantity}
                     handleDelete={() => this.deleteOrder(order.id)}
                     handleChange={(event) => this.changeQuantity(event, order.id)} />
-            </Fragment>
+            </Link>
         ))
     }
 
