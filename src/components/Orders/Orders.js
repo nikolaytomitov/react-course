@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import * as actionTypes from '../../store/actions/actions'
 import Order from './Order';
 import axios from 'axios';
 
 class Orders extends Component {
 
     state = {
-        orders: [],
         x: 0
     }
 
@@ -16,16 +17,16 @@ class Orders extends Component {
     }
 
     deleteOrder = (id) => {
-        console.log("Sega kupih tui s id " + id);
-        const newOrders = [...this.state.orders];
-        let index = newOrders.findIndex(order => order.id === id);
-        newOrders.splice(index, 1);
+        // console.log("Sega kupih tui s id " + id);
+        // const newOrders = [...this.state.orders];
+        // let index = newOrders.findIndex(order => order.id === id);
+        // newOrders.splice(index, 1);
 
-        axios.delete('/sudjuci/' + id + ".json").then(data => {
-            this.setState({
-                orders: newOrders
-            });
-        });
+        // axios.delete('/sudjuci/' + id + ".json").then(data => {
+        //     this.setState({
+        //         orders: newOrders
+        //     });
+        // });
     }
 
     changeQuantity = (event, id) => {
@@ -39,16 +40,8 @@ class Orders extends Component {
         });
     }
 
-
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log('@Orders@ shouldComponentUpdate')
-        return true;
-    }
-
     render() {
-        console.log('@Orders@ render');
-        console.log("Props ", this.props);
-        return this.state.orders.map((order) => (
+        return this.props.orders.map((order) => (
             <Link to={'/' + order.id} key={order.id}>
                 <Order
                     // photo={images(`./${order.photo}.jpg`)}
@@ -56,7 +49,7 @@ class Orders extends Component {
                     // info={order.info}
                     price={order.price}
                     quantity={order.quantity}
-                    handleDelete={() => this.deleteOrder(order.id)}
+                    handleDelete={() => this.props.deleteOrder(order.id)}
                     handleChange={(event) => this.changeQuantity(event, order.id)} />
             </Link>
         ))
@@ -65,24 +58,19 @@ class Orders extends Component {
     componentDidUpdate() {
         console.log("@Orders@ componentDidUpdate");
     }
+}
 
-    componentDidMount() {
-        console.log("App componentDidMount");
-        axios.get('/sudjuci.json')
-            .then((response) => {
-                let sudjuci = Object.keys(response.data).map((key) => {
-                    return { id: key, ...response.data[key] };
-                })
-
-                this.setState({
-                    orders: sudjuci
-                });
-            })
-            .catch(error => {
-                console.log(error);
-                this.setState({ hasError: true })
-            });
+//redux state, ownProps
+const mapStateToProps = (state, ownProps) => {
+    return {
+        orders: state.orders
     }
 }
 
-export default Orders;
+const mapDispatchToProps = dispatch => {
+    return {
+        deleteOrder: (id) => dispatch({ type: actionTypes.DELETE_PRODUCT, id })
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Orders);
